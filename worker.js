@@ -2980,9 +2980,9 @@ var src_default = {
         const key = generateRandomStr(11);
         if (url2.startsWith("https://") || url2.startsWith("http://")) {
           response = await fetch(url2, {
-            method: request.method,
-            headers: request.headers,
-            redirect: 'follow', // https://developers.cloudflare.com/workers/runtime-apis/request#constructor
+            headers: {
+              'User-Agent': 'xray'
+            }
           });
           if (!response.ok)
             continue;
@@ -3223,7 +3223,7 @@ function replaceHysteria(link, replacements) {
   replacements[randomDomain] = server;
   return link.replace(server, randomDomain);
 }
-function replaceHysteria2(link, replacements) {
+function replaceHysteria2(link, replacements, isRecovery) {
     const randomUUID = generateRandomUUID();
     const randomDomain = generateRandomStr(10) + ".com";
     const regexMatch = link.match(/(hysteria2):\/\/(.*)@(.*?):/);
